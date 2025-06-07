@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Uzi
+  - Coin
+  - Enemy
   layers:
   - Default
   - TransparentFX
