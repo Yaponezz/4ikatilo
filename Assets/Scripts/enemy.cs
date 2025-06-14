@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class enemy : MonoBehaviour
 {
-  public Transform pointA;       // Первая точка патруля
+    public Transform pointA;       // Первая точка патруля
     public Transform pointB;       // Вторая точка патруля
     public float speed = 2f;       // Скорость движения
+
+    
+
+    [SerializeField] private int damage = 1; // Урон, который наносит враг
 
     private Vector3 targetPosition;
 
@@ -17,16 +22,26 @@ public class enemy : MonoBehaviour
 
     void Update()
     {
-        // Двигаемся к цели
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        // Если достигли цели — меняем её на другую точку
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             if (targetPosition == pointB.position)
                 targetPosition = pointA.position;
             else
                 targetPosition = pointB.position;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Damage(damage);
+            }
         }
     }
 }
